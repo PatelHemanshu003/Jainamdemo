@@ -1,0 +1,138 @@
+﻿@model List<JainamDemo.Models.BranchModel>
+@{
+    ViewBag.Title = "Branch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Branch</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            
+            <div class="col-md-6">
+                @Html.EditorFor(model => model[0].Branch_Code, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Branch Code", id = "Branch_Code" } })
+                @Html.ValidationMessageFor(model => model[0].Branch_Code, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model[0].Branch_Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Branch name", id = "Branch_Name" } })
+                @Html.ValidationMessageFor(model => model[0].Branch_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                @Html.EditorFor(model => model[0].Branch_Addr, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Branch Address", id = "Branch_Addr" } })
+                @Html.ValidationMessageFor(model => model[0].Branch_Addr, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                @*@Html.EditorFor(model => model.Branch_InitDate, new { htmlAttributes = new { @class = "form-control", placeholder = "Select Initial Date", @readonly = "true",@type="Date" } })*@
+                <div class="input-group date" data-provide="datepicker">
+                    @{
+                        string branchdate = "";
+                        if (Model != null && Model.Count > 0 && Model[0].Branch_InitDate != null)
+                        {
+                            branchdate = Model[0].Branch_InitDate.ToString();
+                        }
+                        else
+                        {
+                            branchdate = "";
+                        }
+                    }
+                    <input type="text" class="form-control" id="InitDate" name="InitDate" value=@branchdate>
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model[0].Branch_InitDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                @{
+                    string branchlogo = "";
+                    if (Model != null && Model.Count > 0 && Model[0].Branch_Logo != null)
+                    {
+                        branchlogo = Model[0].Branch_Logo;
+                    }
+                    else
+                    {
+                        branchlogo = "";
+                    }
+                }
+                <input type="file" id="Branch_Logo" multiple />
+                <input type="button" id="btnUpload" value="Upload Logo" />
+                <img src=~/images/@branchlogo width="100" height="100" id="imageContainer" />
+            </div>
+            <div class="col-md-6">
+                @{
+                    string BranchType = "";
+                    if (Model != null && Model.Count > 0 && Model[0].Branch_Type != null)
+                    {
+                        BranchType = Model[0].Branch_Type;
+                    }
+                    else
+                    {
+                        BranchType = "";
+                    }
+                }
+                <input type="hidden" id="hdnBranchType" value="@BranchType" />
+                    <select class="form-control" name="BranchType" id="Branch_Type" style="width: 100%;">
+                        <option selected="selected">Select Branch Type</option>
+                        <option value="M">Main</option>
+                        <option value="S">Sub</option>
+                    </select>
+                
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                @Html.CheckBoxFor(model => model[0].IsActive, new { id = "IsActive" })
+                <label>Active </label>
+                @Html.ValidationMessageFor(model => model[0].IsActive, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                @{
+                    string Branch_Db = "";
+                    if (Model != null && Model.Count > 0 && Model[0].Branch_Type != null)
+                    {
+                        Branch_Db = Model[0].Branch_Db;
+                    }
+                    else
+                    {
+                        Branch_Db = "";
+                    }
+                }
+                <input type="hidden" id="hdnBranch_Db" value="@Branch_Db" />
+                <select class="form-control" name="Branch_Db" id="Branch_Db" style="width: 100%;">
+                    <option selected="selected">Select Branch Database</option>
+                    <option value="Demo1">Demo1</option>
+                    <option value="Demo2">Demo2</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="Btnsave" value="Save" class="btn btn-success" />&nbsp;&nbsp;
+                <input type="reset" value="Reset" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "BranchList")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/Branch/Branch.js"></script>
